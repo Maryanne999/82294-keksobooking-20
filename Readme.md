@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Марианна Эльдарова](https://up.htmlacademy.ru/javascript/20/user/82294).
-* Наставник: `Неизвестно`.
+* Наставник: [Анастасия Рябчикова](https://htmlacademy.ru/profile/id521463).
 
 ---
 
