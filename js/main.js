@@ -1,6 +1,7 @@
 'use strict';
 
 var APARTMENT_OPTIONS = ['palace', 'flat', 'house', 'bungalo'];
+var TITLES = [' Королевский дворец', ' Однушка в Чертаново', ' Загородный дом', ' Супер-пупер бунгало'];
 var CHECKIN_TIME = ['12.00', '13.00', '14.00'];
 var CHECKOUT_TIME = ['12.00', '13.00', '14.00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -52,7 +53,7 @@ function generateMocks(counter) {
         'avatar': 'img/avatars/user0' + (i + 1) + '.png',
       },
       'offer': {
-        'title': getRandomArrElem(APARTMENT_OPTIONS),
+        'title': getRandomArrElem(TITLES),
         'address': locationX + ' ' + locationY,
         'price': getRandomArrElem(PRICES),
         'type': getRandomArrElem(APARTMENT_OPTIONS),
@@ -78,9 +79,9 @@ function generateMocks(counter) {
 function getPinTemplate(data) {
   var pinElement = templatePin.cloneNode(true);
   var pinIcon = pinElement.querySelector('img');
-  pinElement.style = 'left: ' + data.location.x + 'px; top: ' + data.location.y + 'px;';
+  pinElement.style = 'left: ' + data.location.x + 'px; top: ' + data.location.y + 'px;' + ' transform: translate(-50%, -100%)';
   pinIcon.src = data.author.avatar;
-  pinIcon.alt = data.author.title;
+  pinIcon.alt = data.offer.title;
   return pinElement;
 }
 
