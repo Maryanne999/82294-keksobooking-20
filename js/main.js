@@ -10,7 +10,9 @@ var NUMBER_ADS = 8;
 var GUESTS = [1, 2, 3];
 var ROOMS = [1, 2, 3];
 var PRICES = [10000, 20000, 30000, 40000, 50000];
+var OFFER_DESCRIPTIONS = ['Дворец не хуже чем у бабушки Лизы. Почувствуй себя сасексами, хоть на один денек', 'Потрясающая однокомнатная квартира, которая вернет тебя в детство СССР. Сосед с дрелью в 5 утра в подарок', 'Уютный загородный дом для любителей природы. Проведи выходные на лоне природы. Все удобства на улице', 'Отдохни от городских будней и прикоснись к флоре и фауне нашего острова не выходя из бунгало'
 
+];
 
 // Удаление класса map
 var map = document.querySelector('.map');
@@ -62,7 +64,7 @@ function generateMocks(counter) {
         'checkin': getRandomArrElem(CHECKIN_TIME),
         'checkout': getRandomArrElem(CHECKOUT_TIME),
         'features': getRandomNumOfElemFromArr(FEATURES),
-        'description': getRandomArrElem(APARTMENT_OPTIONS),
+        'description': getRandomArrElem(OFFER_DESCRIPTIONS),
         'photos': getRandomNumOfElemFromArr(PHOTOS_OPTIONS),
       },
       'location': {
@@ -95,3 +97,30 @@ function renderPins(pinsData) {
 }
 
 renderPins(generateMocks(NUMBER_ADS));
+
+
+// Поиск модального окна с объявлением
+var cardTemplate = document.querySelector('#card')
+    .content.querySelector('.map__card');
+
+
+// Заполнение карточки объявления данными
+var generateCard = function (cardData) {
+  cardTemplate.querySelector('.popup__title').textContent = cardData.offer.title;
+  cardTemplate.querySelector('.popup__text--address').textContent = cardData.offer.address;
+  cardTemplate.querySelector('.popup__text--price').textContent = cardData.offer.price + '₽/ночь';
+  cardTemplate.querySelector('.popup__type').textContent = APARTMENT_OPTIONS[cardData.offer.type];
+  cardTemplate.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
+  cardTemplate.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
+  cardTemplate.querySelector('.popup__description').textContent = cardData.offer.description;
+  cardTemplate.querySelector('.popup__avatar').src = cardData.author.avatar;
+  cardTemplate.querySelector('.popup__photos').src = cardData.offer.photos;
+
+
+  return cardTemplate;
+};
+
+var mapFilters = map.querySelector('.map__filters-container');
+
+map.insertBefore(generateCard(), mapFilters);
+
