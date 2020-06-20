@@ -77,7 +77,7 @@ function generateMocks(counter) {
   return mocksList;
 }
 
-var dataMocks = generateMocks();
+var dataMocks = generateMocks(NUMBER_ADS);
 
 // На основе данных, полученных из функции generateMocks, клону шаблона pinElement задаем метки координат и изображений
 function getPinTemplate(data) {
@@ -109,15 +109,15 @@ var cardTemplate = document.querySelector('#card')
 // Заполнение карточки объявления данными
 var generateCard = function (cardData) {
   var cardElement = cardTemplate.cloneNode(true);
-  cardTemplate.querySelector('.popup__title').textContent = cardData.offer.title;
-  cardTemplate.querySelector('.popup__text--address').textContent = cardData.offer.address;
-  cardTemplate.querySelector('.popup__text--price').textContent = cardData.offer.price + '₽/ночь';
-  cardTemplate.querySelector('.popup__type').textContent = APARTMENT_OPTIONS[cardData.offer.type];
-  cardTemplate.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
-  cardTemplate.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
-  cardTemplate.querySelector('.popup__description').textContent = cardData.offer.description;
-  cardTemplate.querySelector('.popup__avatar').src = cardData.author.avatar;
-  cardTemplate.querySelector('.popup__photos').src = cardData.offer.photos;
+  cardElement.querySelector('.popup__title').textContent = cardData.offer.title;
+  cardElement.querySelector('.popup__text--address').textContent = cardData.offer.address;
+  cardElement.querySelector('.popup__text--price').textContent = cardData.offer.price + '₽/ночь';
+  cardElement.querySelector('.popup__type').textContent = APARTMENT_OPTIONS[cardData.offer.type];
+  cardElement.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
+  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
+  cardElement.querySelector('.popup__description').textContent = cardData.offer.description;
+  cardElement.querySelector('.popup__avatar').src = cardData.author.avatar;
+  cardElement.querySelector('.popup__photos').src = cardData.offer.photos;
 
 
   return cardElement;
@@ -125,5 +125,5 @@ var generateCard = function (cardData) {
 
 var mapFilters = map.querySelector('.map__filters-container');
 
-map.insertBefore(generateCard(cardTemplate), mapFilters);
+map.insertBefore(generateCard(dataMocks[0]), mapFilters);
 
