@@ -45,7 +45,7 @@ function getRandomNumOfElemFromArr(arr) {
 }
 
 // Функция для генерирования данных(моки)
-function generateMocks(counter) {
+var dataMocks = function generateMocks(counter) {
   var mocksList = [];
   for (var i = 0; i < counter; i++) {
     var locationX = getRandomNumber(0, mapPins.clientWidth);
@@ -75,7 +75,7 @@ function generateMocks(counter) {
     mocksList.push(mocksPins);
   }
   return mocksList;
-}
+};
 
 // На основе данных, полученных из функции generateMocks, клону шаблона pinElement задаем метки координат и изображений
 function getPinTemplate(data) {
@@ -96,7 +96,7 @@ function renderPins(pinsData) {
   mapPins.appendChild(fragment);
 }
 
-renderPins(generateMocks(NUMBER_ADS));
+renderPins(dataMocks(NUMBER_ADS));
 
 
 // Поиск модального окна с объявлением
@@ -106,6 +106,7 @@ var cardTemplate = document.querySelector('#card')
 
 // Заполнение карточки объявления данными
 var generateCard = function (cardData) {
+  var cardElement = cardTemplate.cloneNode(true);
   cardTemplate.querySelector('.popup__title').textContent = cardData.offer.title;
   cardTemplate.querySelector('.popup__text--address').textContent = cardData.offer.address;
   cardTemplate.querySelector('.popup__text--price').textContent = cardData.offer.price + '₽/ночь';
@@ -117,10 +118,10 @@ var generateCard = function (cardData) {
   cardTemplate.querySelector('.popup__photos').src = cardData.offer.photos;
 
 
-  return cardTemplate;
+  return cardElement;
 };
 
 var mapFilters = map.querySelector('.map__filters-container');
 
-map.insertBefore(generateCard(), mapFilters);
+map.insertBefore(generateCard(cardTemplate), mapFilters);
 
