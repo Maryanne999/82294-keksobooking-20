@@ -45,7 +45,7 @@ function getRandomNumOfElemFromArr(arr) {
 }
 
 // Функция для генерирования данных(моки)
-var dataMocks = function generateMocks(counter) {
+function generateMocks(counter) {
   var mocksList = [];
   for (var i = 0; i < counter; i++) {
     var locationX = getRandomNumber(0, mapPins.clientWidth);
@@ -75,7 +75,9 @@ var dataMocks = function generateMocks(counter) {
     mocksList.push(mocksPins);
   }
   return mocksList;
-};
+}
+
+var dataMocks = generateMocks();
 
 // На основе данных, полученных из функции generateMocks, клону шаблона pinElement задаем метки координат и изображений
 function getPinTemplate(data) {
@@ -96,7 +98,7 @@ function renderPins(pinsData) {
   mapPins.appendChild(fragment);
 }
 
-renderPins(dataMocks(NUMBER_ADS));
+renderPins(dataMocks);
 
 
 // Поиск модального окна с объявлением
