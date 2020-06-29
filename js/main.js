@@ -9,8 +9,8 @@ var PHOTOS_OPTIONS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'htt
 var NUMBER_ADS = 8;
 var GUESTS = [1, 2, 3];
 var ROOMS = [1, 2, 3];
-var PRICES = [10000, 20000, 30000, 40000, 50000];
-var OFFER_DESCRIPTIONS = ['Дворец не хуже чем у бабушки Лизы. Почувствуй себя сасексами, хоть на один денек', 'Потрясающая однокомнатная квартира, которая вернет тебя в детство СССР. Сосед с дрелью в 5 утра в подарок', 'Уютный загородный дом для любителей природы. Проведи выходные на лоне природы. Все удобства на улице', 'Отдохни от городских будней и прикоснись к флоре и фауне нашего острова не выходя из бунгало'
+// var PRICES = [10000, 20000, 30000, 40000, 50000];
+var OFFER_DESCRIPTIONS = ['Дворец не хуже чем у бабушки Лизы. Почувствуй себя сассексами, хоть на один денек', 'Потрясающая однокомнатная квартира, которая вернет тебя в детство СССР. Сосед с дрелью в 5 утра в подарок', 'Уютный загородный дом для любителей природы. Проведи выходные на лоне природы. Все удобства на улице', 'Отдохни от городских будней и прикоснись к флоре и фауне нашего острова не выходя из бунгало'
 
 ];
 
@@ -29,7 +29,8 @@ var getRandomNumber = function (min, max) {
 };
 // Функция создания элементов из массива со случайным выбором элементов
 var getRandomArrElem = function (array) {
-  return array.slice(0, getRandomNumber(0, array.length));
+  var randomValue = getRandomNumber(0, array.length - 1);
+  return array[randomValue];
 };
 
 // Функция для выбора случайного количество элементов из массив
@@ -56,8 +57,8 @@ function generateMocks(counter) {
       },
       'offer': {
         'title': getRandomArrElem(TITLES),
-        'address': locationX + ' ' + locationY,
-        'price': getRandomArrElem(PRICES),
+        'address': locationX + ', ' + locationY,
+        'price': getRandomNumber(1000, 5000),
         'type': getRandomArrElem(APARTMENT_OPTIONS),
         'rooms': getRandomNumber(1, ROOMS.length - 1),
         'guests': getRandomNumber(1, GUESTS.length - 1),
@@ -105,19 +106,37 @@ renderPins(dataMocks);
 var cardTemplate = document.querySelector('#card')
     .content.querySelector('.map__card');
 
+var HOUSE_TYPES_MAP = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
+};
+
+var getHouseType = function (type) {
+  return HOUSE_TYPES_MAP[type];
+};
 
 // Заполнение карточки объявления данными
 var generateCard = function (cardData) {
   var cardElement = cardTemplate.cloneNode(true);
+  var imgTemplate = cardElement.querySelector('.popup__photo');
   cardElement.querySelector('.popup__title').textContent = cardData.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = cardData.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = cardData.offer.price + '₽/ночь';
-  cardElement.querySelector('.popup__type').textContent = APARTMENT_OPTIONS[cardData.offer.type];
+  cardElement.querySelector('.popup__type').textContent = getHouseType(cardData.offer.type);
   cardElement.querySelector('.popup__text--capacity').textContent = cardData.offer.rooms + ' комнаты для ' + cardData.offer.guests + ' гостей';
   cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + cardData.offer.checkin + ', выезд до ' + cardData.offer.checkout;
+  cardElement.querySelector('.popup__features').textContent = cardData.offer.features.join(', ');
   cardElement.querySelector('.popup__description').textContent = cardData.offer.description;
   cardElement.querySelector('.popup__avatar').src = cardData.author.avatar;
-  cardElement.querySelector('.popup__photos').src = cardData.offer.photos;
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < cardData.offer.photos.length; i++) {
+    var img = imgTemplate.cloneNode(true);
+    img.src = cardData.offer.photos[i];
+    fragment.appendChild(img);
+  }
+  cardElement.querySelector('.popup__photos').appendChild(fragment);
 
 
   return cardElement;
