@@ -117,10 +117,24 @@ var getHouseType = function (type) {
   return HOUSE_TYPES_MAP[type];
 };
 
+/*
+var imgDefault = document.querySelector('.popup__photo');
+var delContent = photosContent.removeChild(imgDefault);*/
+
+
+/* function clear() {
+  document.querySelector('.popup__photos').innerHTML = '';
+}
+clear();
+*/
+
 // Заполнение карточки объявления данными
 var generateCard = function (cardData) {
   var cardElement = cardTemplate.cloneNode(true);
   var imgTemplate = cardElement.querySelector('.popup__photo');
+  var photosContent = document.querySelector('.popup__photos');
+  var photosImg = document.querySelector('.popup__photo');
+  var remImg = photosContent.removeChild(photosImg);
   cardElement.querySelector('.popup__title').textContent = cardData.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = cardData.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = cardData.offer.price + '₽/ночь';
